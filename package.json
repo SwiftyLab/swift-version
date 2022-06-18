@@ -31,6 +31,7 @@
     "semver": "^7.3.7"
   },
   "devDependencies": {
+    "@types/jest": "^28.1.2",
     "jest": "^28.1.1"
   }
 }
