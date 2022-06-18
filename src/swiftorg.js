@@ -17,22 +17,22 @@ async function buildData(version, includeDev) {
 
   let files = await glob(`${buildDir}/${buildDirPattern}/${platform.file}.yml`);
   if (!includeDev && !version.match(betaVerRegex)) {
-    files = files.filter((file) => path.basename(path.dirname(file)).match(swiftReleaseRegex));
+    files = files.filter(file => path.basename(path.dirname(file)).match(swiftReleaseRegex));
   }
 
   if (files.length) {
-    const futureDatas = files.map((file) => readFile(path.join(process.cwd(), file), 'utf-8'));
+    const futureDatas = files.map(file => readFile(path.join(process.cwd(), file), 'utf-8'));
     const datas = await Promise.all(futureDatas);
-    return datas.flatMap((data) => yaml.load(data));
+    return datas.flatMap(data => yaml.load(data));
   }
 
   const regex = new RegExp(`${platform.name}(?<version>[0-9]*)(-.*)?`);
   let maxVer, minVer;
   files = await glob(`${buildDir}/${buildDirPattern}/${platform.filePattern}.yml`);
   if (!includeDev && !version.match(betaVerRegex)) {
-    files = files.filter((file) => path.basename(path.dirname(file)).match(swiftReleaseRegex));
+    files = files.filter(file => path.basename(path.dirname(file)).match(swiftReleaseRegex));
   }
-  files.forEach((file) => {
+  files.forEach(file => {
     const filename = path.basename(file, 'yml');
     const ver = parseInt(filename.match(regex).groups.version);
     if (maxVer === undefined || maxVer < ver) maxVer = ver;
@@ -41,14 +41,14 @@ async function buildData(version, includeDev) {
 
   const selectedVer = maxVer ?? minVer;
   if (selectedVer && files.length) {
-    files = files.filter((file) => {
+    files = files.filter(file => {
       const filename = path.basename(file, 'yml');
       const ver = parseInt(filename.match(regex).groups.version);
       return ver === selectedVer;
     });
-    const futureDatas = files.map((file) => readFile(path.join(process.cwd(), file), 'utf-8'));
+    const futureDatas = files.map(file => readFile(path.join(process.cwd(), file), 'utf-8'));
     const datas = await Promise.all(futureDatas);
-    return datas.flatMap((data) => yaml.load(data));
+    return datas.flatMap(data => yaml.load(data));
   }
   return [];
 }
