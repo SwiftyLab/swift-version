@@ -8,14 +8,16 @@ const readFile = util.promisify(require('fs').readFile);
 const platform = require('./platform');
 
 const buildDir = 'swiftorg/_data/builds';
+const betaVerRegex = /latest-(dev|beta)/;
+const swiftReleaseRegex = /swift-.*-release/;
 
 async function buildData(version, includeDev) {
-  const ver = semver.valid(version) ?? semver.valid(semver.coerce(version));
+  const ver = semver.coerce(version) ? version : null;
   const buildDirPattern = ver ? `swift-${ver.replaceAll('.', '_')}*` : '*';
 
   let files = await glob(`${buildDir}/${buildDirPattern}/${platform.file}.yml`);
-  if (!includeDev || version.match(/latest-(dev|beta)/)) {
-    files = files.filter((file) => path.basename(path.dirname(file)).match(/swift-.*-release/));
+  if (!includeDev && !version.match(betaVerRegex)) {
+    files = files.filter((file) => path.basename(path.dirname(file)).match(swiftReleaseRegex));
   }
 
   if (files.length) {
@@ -39,9 +41,9 @@ async function buildData(version, includeDev) {
     files = files.filter((file) => {
       const filename = path.basename(file, 'yml');
       const ver = parseInt(filename.match(regex).groups.version);
-      if (!includeDev || version.match(/latest-(dev|beta)/)) {
+      if (!includeDev && !version.match(betaVerRegex)) {
         return ver === selectedVer &&
-         path.basename(path.dirname(file)).match(/swift-.*-release/);
+         path.basename(path.dirname(file)).match(swiftReleaseRegex);
       }
       return ver === selectedVer;
     });
