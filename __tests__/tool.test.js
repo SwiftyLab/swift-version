@@ -43,4 +43,34 @@ describe('fetch tool data based on options', () => {
       expect(tool.dir).toBe('swift-5.5.1-RELEASE');
     });
   });
+
+  it('handles swift tool version not present by returning null', async () => {
+    setSystem({ os: 'linux', dist: 'Ubuntu', release: '18.04' });
+    jest.spyOn(os, 'arch').mockReturnValue('x64');
+    let tool;
+    jest.isolateModules(async () => {
+      tool = await require('../src/tool').swiftTool(`${Number.MAX_VALUE}`);
+      expect(tool).toBe(null);
+    });
+  });
+
+  it('fetches ubuntu 16.04 latest swift 5.6 tool', async () => {
+    setSystem({ os: 'linux', dist: 'Ubuntu', release: '16.04' });
+    jest.spyOn(os, 'arch').mockReturnValue('x64');
+    let tool;
+    jest.isolateModules(async () => {
+      tool = await require('../src/tool').swiftTool('5.6.1');
+      expect(tool.dir).toBe('swift-5.6.1-RELEASE');
+    });
+  });
+
+  it('fetches ubuntu 20.04 latest swift 5.2 tool', async () => {
+    setSystem({ os: 'linux', dist: 'Ubuntu', release: '20.04' });
+    jest.spyOn(os, 'arch').mockReturnValue('x64');
+    let tool;
+    jest.isolateModules(async () => {
+      tool = await require('../src/tool').swiftTool('5.2');
+      expect(tool.dir).toBe('swift-5.2.4-RELEASE');
+    });
+  });
 });

@@ -43,4 +43,24 @@ describe('fetch all matching tool data based on options', () => {
       expect(tools.length).toBe(34);
     });
   });
+
+  it('fetches ubuntu 16.04 latest swift 5.6 tools', async () => {
+    setSystem({ os: 'linux', dist: 'Ubuntu', release: '16.04' });
+    jest.spyOn(os, 'arch').mockReturnValue('x64');
+    let tools;
+    jest.isolateModules(async () => {
+      tools = await require('../src/swiftorg').buildData('5.6.1');
+      expect(tools.length).toBe(2);
+    });
+  });
+
+  it('fetches ubuntu 20.04 latest swift 5.2 tools', async () => {
+    setSystem({ os: 'linux', dist: 'Ubuntu', release: '20.04' });
+    jest.spyOn(os, 'arch').mockReturnValue('x64');
+    let tools;
+    jest.isolateModules(async () => {
+      tools = await require('../src/swiftorg').buildData('5.2');
+      expect(tools.length).toBe(2);
+    });
+  });
 });

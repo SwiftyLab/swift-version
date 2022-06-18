@@ -10,6 +10,8 @@ describe('platform detection', () => {
     let platform;
     jest.isolateModules(() => platform = require('../src/platform'));
     expect(platform.name).toBe('xcode');
+    expect(platform.file).toBe('xcode');
+    expect(platform.filePattern).toBe('xcode');
   });
 
   it('detects ubuntu', () => {
@@ -20,6 +22,8 @@ describe('platform detection', () => {
     expect(platform.name).toBe('ubuntu');
     expect(platform.version).toBe(1804);
     expect(platform.arch).toBe('x86_64');
+    expect(platform.file).toBe('ubuntu1804');
+    expect(platform.filePattern).toBe('ubuntu*');
   });
 
   it('detects ubuntu with arm arch', () => {
@@ -30,6 +34,8 @@ describe('platform detection', () => {
     expect(platform.name).toBe('ubuntu');
     expect(platform.version).toBe(1804);
     expect(platform.arch).toBe('aarch64');
+    expect(platform.file).toBe('ubuntu1804-aarch64');
+    expect(platform.filePattern).toBe('ubuntu*-aarch64');
   });
 
   it('detects windows', () => {
@@ -40,5 +46,19 @@ describe('platform detection', () => {
     expect(platform.name).toBe('windows');
     expect(platform.version).toBe(10);
     expect(platform.arch).toBe('x86_64');
+    expect(platform.file).toBe('windows10');
+    expect(platform.filePattern).toBe('windows*');
+  });
+
+  it('throws error for unsupported os', () => {
+    expect.assertions(1);
+    setSystem({ os: 'unknown', dist: 'unknown', release: '1' });
+    jest.spyOn(os, 'arch').mockReturnValue('x64');
+    let platform;
+    try {
+      jest.isolateModules(() => platform = require('../src/platform'));
+    } catch (e) {
+      expect(e).toEqual(new Error(`OS unknown unsupported for swift`));
+    }
   });
 });

@@ -30,7 +30,7 @@ class Platform {
 
 let _os;
 getos((e, os) => {
-  if (e) console.error(e);
+  if (e) throw e;
   _os = os;
 });
 
@@ -60,7 +60,7 @@ switch (_os.os) {
     platform = new Platform(_os.dist.toLowerCase(), parseInt(version), arch);
     break;
   default:
-    console.error(`OS ${_os.os} unsupported for swift`);
+    throw new Error(`OS ${_os.os} unsupported for swift`);
 }
 
 module.exports = platform;

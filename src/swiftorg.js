@@ -29,11 +29,14 @@ async function buildData(version, includeDev) {
   const regex = new RegExp(`${platform.name}(?<version>[0-9]*)(-.*)?`);
   let maxVer, minVer;
   files = await glob(`${buildDir}/${buildDirPattern}/${platform.filePattern}.yml`);
+  if (!includeDev && !version.match(betaVerRegex)) {
+    files = files.filter((file) => path.basename(path.dirname(file)).match(swiftReleaseRegex));
+  }
   files.forEach((file) => {
     const filename = path.basename(file, 'yml');
     const ver = parseInt(filename.match(regex).groups.version);
-    if (maxVer === null || maxVer < ver) maxVer = ver;
-    if (minVer === null || minVer > ver) minVer = ver;
+    if (maxVer === undefined || maxVer < ver) maxVer = ver;
+    if (minVer === undefined || minVer > ver) minVer = ver;
   });
 
   const selectedVer = maxVer ?? minVer;
@@ -41,10 +44,6 @@ async function buildData(version, includeDev) {
     files = files.filter((file) => {
       const filename = path.basename(file, 'yml');
       const ver = parseInt(filename.match(regex).groups.version);
-      if (!includeDev && !version.match(betaVerRegex)) {
-        return ver === selectedVer &&
-          path.basename(path.dirname(file)).match(swiftReleaseRegex);
-      }
       return ver === selectedVer;
     });
     const futureDatas = files.map((file) => readFile(path.join(process.cwd(), file), 'utf-8'));
