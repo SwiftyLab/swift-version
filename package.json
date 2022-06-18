@@ -2,10 +2,10 @@
   "name": "swift-version",
   "version": "1.0.0",
   "description": "Provide Swift version specific download metadata.",
-  "main": "src/index.js",
+  "main": "dist/index.js",
   "scripts": {
     "prepare": "git submodule update -f",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest"
   },
   "repository": {
     "type": "git",
@@ -29,5 +29,8 @@
     "js-yaml": "^4.1.0",
     "marked": "^4.0.17",
     "semver": "^7.3.7"
+  },
+  "devDependencies": {
+    "jest": "^28.1.1"
   }
 }

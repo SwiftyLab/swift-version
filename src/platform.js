@@ -56,8 +56,7 @@ switch (_os.os) {
     platform = new Platform('windows', 10, arch);
     break;
   case 'linux':
-    let version = _os.release;
-    version.replace(/[^0-9]/g, '');
+    let version = _os.release.replaceAll(/[^0-9]/g, '');
     platform = new Platform(_os.dist.toLowerCase(), parseInt(version), arch);
     break;
   default:
