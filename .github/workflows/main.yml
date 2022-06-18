@@ -33,9 +33,7 @@ jobs:
       uses: actions/cache@v3.0.4
       with:
         key: node-${{ github.ref }}
-        path: |
-          node_modules
-          swiftorg
+        path: node_modules
 
     - name: Setup npm pacakges
       run: npm install
