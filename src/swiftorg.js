@@ -50,6 +50,7 @@ async function buildData(version, includeDev) {
     const datas = await Promise.all(futureDatas);
     return datas.flatMap((data) => yaml.load(data));
   }
+  return [];
 }
 
 module.exports = { buildData };
