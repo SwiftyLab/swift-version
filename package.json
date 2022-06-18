@@ -1,0 +1,33 @@
+{
+  "name": "swift-version",
+  "version": "1.0.0",
+  "description": "Provide Swift version specific download metadata.",
+  "main": "src/index.js",
+  "scripts": {
+    "prepare": "git submodule update -f",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SwiftyLab/swift-version.git"
+  },
+  "keywords": [
+    "swift",
+    "actions",
+    "github-actions",
+    "ci"
+  ],
+  "author": "Soumya Ranjan Mahunt",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/SwiftyLab/swift-version/issues"
+  },
+  "homepage": "https://github.com/SwiftyLab/swift-version#readme",
+  "dependencies": {
+    "getos": "^3.2.1",
+    "glob": "^8.0.3",
+    "js-yaml": "^4.1.0",
+    "marked": "^4.0.17",
+    "semver": "^7.3.7"
+  }
+}

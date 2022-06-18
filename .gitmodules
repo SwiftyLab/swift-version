@@ -1,0 +1,3 @@
+[submodule "swiftorg"]
+	path = swiftorg
+	url = https://github.com/apple/swift-org-website.git
