@@ -4,7 +4,7 @@
   "description": "Provide Swift version specific download metadata.",
   "main": "dist/index.js",
   "scripts": {
-    "prepare": "git submodule update -f",
+    "prepare": "git submodule update --init --recursive --remote --merge",
     "test": "jest"
   },
   "repository": {
