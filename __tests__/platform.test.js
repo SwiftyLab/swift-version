@@ -5,7 +5,7 @@ const setSystem = require('getos').__setSystem;
 
 describe('platform detection', () => {
   it('detects macOS', () => {
-    setSystem({ os: 'darwin', dist: 'macOS', release: 'latest' });
+    setSystem({ os: 'darwin', dist: 'macOS', release: '21' });
     jest.spyOn(os, 'arch').mockReturnValue('x64');
     let platform;
     jest.isolateModules(() => platform = require('../src/platform'));
@@ -33,7 +33,7 @@ describe('platform detection', () => {
   });
 
   it('detects windows', () => {
-    setSystem({ os: 'win32', dist: 'Windows', release: 'latest' });
+    setSystem({ os: 'win32', dist: 'Windows', release: '10.0.17063' });
     jest.spyOn(os, 'arch').mockReturnValue('x64');
     let platform;
     jest.isolateModules(() => platform = require('../src/platform'));
