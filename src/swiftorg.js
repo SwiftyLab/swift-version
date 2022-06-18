@@ -21,7 +21,7 @@ async function buildData(version, includeDev) {
   }
 
   if (files.length) {
-    const futureDatas = files.map((file) => readFile(path.join(process.cwd(), file)));
+    const futureDatas = files.map((file) => readFile(path.join(process.cwd(), file), 'utf-8'));
     const datas = await Promise.all(futureDatas);
     return datas.flatMap((data) => yaml.load(data));
   }
@@ -43,11 +43,11 @@ async function buildData(version, includeDev) {
       const ver = parseInt(filename.match(regex).groups.version);
       if (!includeDev && !version.match(betaVerRegex)) {
         return ver === selectedVer &&
-         path.basename(path.dirname(file)).match(swiftReleaseRegex);
+          path.basename(path.dirname(file)).match(swiftReleaseRegex);
       }
       return ver === selectedVer;
     });
-    const futureDatas = files.map((file) => readFile(path.join(process.cwd(), file)));
+    const futureDatas = files.map((file) => readFile(path.join(process.cwd(), file), 'utf-8'));
     const datas = await Promise.all(futureDatas);
     return datas.flatMap((data) => yaml.load(data));
   }

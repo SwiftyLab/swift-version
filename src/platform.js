@@ -14,8 +14,8 @@ class Platform {
         return this.name
       default:
         return this.name
-         + (version ? version : '')
-         + (this.arch === 'x86_64' ? '' : `-${this.arch}`);
+          + (version ? version : '')
+          + (this.arch === 'x86_64' ? '' : `-${this.arch}`);
     }
   }
 

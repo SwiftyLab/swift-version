@@ -1,5 +1,4 @@
 const os = require('os');
-const { hasUncaughtExceptionCaptureCallback } = require('process');
 
 jest.mock('getos');
 const setSystem = require('getos').__setSystem;
