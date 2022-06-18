@@ -1,0 +1,43 @@
+name: Node.js CI
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  analyze:
+    name: CodeQL
+    if: github.event_name != 'workflow_dispatch'
+    uses: ./.github/workflows/codeql-analysis.yml
+    permissions:
+      actions: read
+      contents: read
+      security-events: write
+
+  test:
+    name: Run tests
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    - name: Setup Node.js
+      id: setup-node
+      uses: actions/setup-node@v3
+      with:
+        cache: npm
+
+    - name: Cache dependencies
+      id: cache-node
+      uses: actions/cache@v3.0.4
+      with:
+        key: node-${{ github.ref }}
+        path: node_modules
+
+    - name: Setup npm pacakges
+      if:  steps.cache-node.outputs.cache-hit != 'true'
+      run: npm install
+
+    - name: Run tests
+      run: npm test

@@ -1,3 +1,9 @@
 {
-    "jest.jestCommandLine": "npm run test -- "
+    "jest.jestCommandLine": "npm run test -- ",
+    "files.exclude": {
+        "**/node_modules": true
+    },
+    "search.exclude": {
+        "swiftorg": true
+    },
 }
